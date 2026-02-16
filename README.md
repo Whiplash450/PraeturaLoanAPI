@@ -1,6 +1,7 @@
 # PraeturaLoanAPI
 
-A loan application REST API built with .NET 8, ASP.NET Core, and EF Core (In-Memory). 
+A loan application REST API built with .NET 8, ASP.NET Core, and EF Core (In-Memory).
+
 It accepts loan applications, validates input, and processes eligibility in the background.
 
 ## How to Run
@@ -53,7 +54,7 @@ Creates a new loan application. The application is saved with a `Pending` status
 - Email must be a valid format
 - Monthly income, requested amount, and term months must be greater than zero
 
-**Idempotency:** Supply an `Idempotency-Key` header to prevent duplicate submissions. If a matching key already exists, the original application is returned.
+**Idempotency:** Supply an `Idempotency-Key` header to prevent duplicate submissions. If a matching key already exists, the original application is returned with a 200 Ok.
 
 ## `GET /loan-applications/{id}`
 
@@ -81,7 +82,7 @@ Applications are saved individually within the processing loop so that a failure
 
 ## Optional Feature: Idempotency
 
-The `POST` endpoint supports a client-supplied `Idempotency-Key` header. If a request is submitted with a key that has already been used, the API returns the original application rather than creating a duplicate.
+The `POST` endpoint supports a client-supplied `Idempotency-Key` header. If a request is submitted with a key that has already been used, the API returns the original application rather than creating a duplicate, via a 200 Ok response.
 
 ## Architecture Notes
 
