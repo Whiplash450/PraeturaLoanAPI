@@ -4,12 +4,10 @@ A loan application REST API built with .NET 8, ASP.NET Core, and EF Core (In-Mem
 
 It accepts loan applications, validates input, and processes eligibility in the background.
 
-## How to Run
-
 ## Prerequisites
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 
-## Run the API
+## How to run the API
 ```bash
 cd PraeturaLoanAPI
 dotnet run
