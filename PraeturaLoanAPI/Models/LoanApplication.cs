@@ -1,4 +1,6 @@
-﻿namespace PraeturaLoanAPI.Models
+﻿using System.Text.Json.Serialization;
+
+namespace PraeturaLoanAPI.Models
 {
     public class LoanApplication
     {
@@ -12,6 +14,7 @@
         public DateTime CreatedAt { get; set; }
         public DateTime? ReviewedAt { get; set; }
         public List<DecisionLogEntry> DecisionLogs { get; set; }
+        [JsonIgnore]
         public string? IdempotencyKey { get; set; }
     }
 }

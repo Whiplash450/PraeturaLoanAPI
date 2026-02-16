@@ -70,4 +70,18 @@ public class LoanApplicationsController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpGet]
+    [Route("/loan-applications/{id}")]
+    public async Task<IActionResult> GetApplication(Guid id)
+    {
+        var application = await _context.LoanApplications
+            .Include(a => a.DecisionLogs)
+            .FirstOrDefaultAsync(a => a.Id == id);
+        if (application == null)
+        {
+            return NotFound();
+        }
+        return Ok(application);
+    }
 }
