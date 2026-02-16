@@ -40,14 +40,14 @@ namespace PraeturaLoanAPI.BackgroundServices
                             //
                             application.Status = results.All(r => r.Passed) ? "Approved" : "Rejected";
                             application.ReviewedAt = DateTime.UtcNow;
+                            //
+                            await context.SaveChangesAsync(stoppingToken);
                         }
-
-                        await context.SaveChangesAsync(stoppingToken);
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Log error but don't crash the service
+                    // I would log here but not in scope for this exercise
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);

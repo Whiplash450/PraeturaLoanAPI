@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PraeturaLoanAPI.Data;
 using PraeturaLoanAPI.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace PraeturaLoanAPI.Controllers;
 
@@ -26,7 +27,9 @@ public class LoanApplicationsController : ControllerBase
             //
             if(string.IsNullOrWhiteSpace(request.Name)) errors.Add("Name is required.");
             if(string.IsNullOrWhiteSpace(request.Email)) errors.Add("Email is required.");
-            if(request.MonthlyIncome <= 0) errors.Add("Monthly income must be greater than zero.");
+            var emailValidator = new EmailAddressAttribute();
+            if(!emailValidator.IsValid(request.Email)) errors.Add("Email is not valid.");
+            if (request.MonthlyIncome <= 0) errors.Add("Monthly income must be greater than zero.");
             if(request.RequestedAmount <= 0) errors.Add("Requested amount must be greater than zero.");
             if(request.TermMonths <= 0) errors.Add("Term months must be greater than zero.");
             //
@@ -67,7 +70,8 @@ public class LoanApplicationsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            //In production would properly log here to appinsights/db
+            return StatusCode(500, "An unexpected error occurred.");
         }
     }
 
@@ -75,13 +79,21 @@ public class LoanApplicationsController : ControllerBase
     [Route("/loan-applications/{id}")]
     public async Task<IActionResult> GetApplication(Guid id)
     {
-        var application = await _context.LoanApplications
-            .Include(a => a.DecisionLogs)
-            .FirstOrDefaultAsync(a => a.Id == id);
-        if (application == null)
+        try
         {
-            return NotFound();
+            var application = await _context.LoanApplications
+                .Include(a => a.DecisionLogs)
+                .FirstOrDefaultAsync(a => a.Id == id);
+            if (application == null)
+            {
+                return NotFound();
+            }
+            return Ok(application);
         }
-        return Ok(application);
+        catch (Exception ex)
+        {
+            //In production would properly log here to appinsights/db
+            return StatusCode(500, "An unexpected error occurred.");
+        }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
-
-namespace PraeturaLoanAPI.Models
+﻿namespace PraeturaLoanAPI.Models
 {
     public class CreateLoanApplication
     {
@@ -9,6 +7,5 @@ namespace PraeturaLoanAPI.Models
         public decimal MonthlyIncome { get; set; }
         public decimal RequestedAmount { get; set; }
         public int TermMonths { get; set; }
-        //public List<string> errors { get; set; }
     }
 }
