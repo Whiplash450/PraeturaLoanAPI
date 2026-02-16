@@ -22,7 +22,7 @@ dotnet test
 
 ## API Endpoints
 
-## `POST /loan-applications`
+### `POST /loan-applications`
 
 Creates a new loan application. The application is saved with a `Pending` status and processed in the background.
 
@@ -54,7 +54,7 @@ Creates a new loan application. The application is saved with a `Pending` status
 
 **Idempotency:** Supply an `Idempotency-Key` header to prevent duplicate submissions. If a matching key already exists, the original application is returned with a 200 Ok.
 
-## `GET /loan-applications/{id}`
+### `GET /loan-applications/{id}`
 
 Returns the full application record including decision log entries once processed.
 
@@ -84,7 +84,7 @@ The `POST` endpoint supports a client-supplied `Idempotency-Key` header. If a re
 
 ## Architecture Notes
 
-## Scaling to 5,000,000 applications per day
+### Scaling to 5,000,000 applications per day
 
 The current design prioritises simplicity and correctness for a small-scale demonstration. At 5M applications/day, several things would need to change:
 
@@ -94,7 +94,7 @@ The current design prioritises simplicity and correctness for a small-scale demo
 4. API scaling - It would be ideal to run the service behind a load balancer, and perhaps containerise the service to be able to dynamically scale horizontally if load required.
 5. Request batching - linking to point 3 in the trade-offs section, batching processing of requests would be very beneficial at high volumes which could help mitigate db load issues, by reducing the number of distinct db calls.
 
-## Shortcuts and Trade-offs
+### Shortcuts and Trade-offs
 
 1. Implement a proper database - As the in-memory db is deleted when the API is stopped, a persistent production db is an obvious upgrade to the compromise for simplicity here.
 2. Logging - The API implements exception handling but no explicit logging. Logging was available as an optional extension but idempotency was chosen instead. Hooking up structured logging to AppInsights would be a good visibility upgrade.
