@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PraeturaLoanAPI.BackgroundServices;
 using PraeturaLoanAPI.Data;
 using PraeturaLoanAPI.Services;
 
@@ -12,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<LoanDbContext>(options => options.UseInMemoryDatabase("LoanDb"));
 builder.Services.AddScoped<IEligibilityService, EligibilityService>();
+builder.Services.AddHostedService<LoanProcessingService>();
 
 var app = builder.Build();
 
