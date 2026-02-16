@@ -19,7 +19,7 @@ public class LoanApplicationsController : ControllerBase
 
     [HttpPost]
     [Route("/loan-applications")]
-    public async Task<IActionResult> CreateApplication([FromBody] CreateLoanApplication request)
+    public async Task<IActionResult> CreateApplication([FromBody] CreateLoanApplication request, [FromHeader(Name = "Idempotency-Key")] string? idempotencyKey = null)
     {
         try
         {
@@ -39,7 +39,6 @@ public class LoanApplicationsController : ControllerBase
             }
 
             //Idempotency check
-            var idempotencyKey = Request.Headers["Idempotency-Key"].FirstOrDefault();
             if(!string.IsNullOrWhiteSpace(idempotencyKey))
             {
                 var existingApplication = await _context.LoanApplications.FirstOrDefaultAsync(a => a.IdempotencyKey == idempotencyKey);
