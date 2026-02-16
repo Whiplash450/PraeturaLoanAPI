@@ -23,6 +23,9 @@
 ## Rider
 .idea/
 
+## Claude Code
+.claude/
+
 ## OS files
 Thumbs.db
 ehthumbs.db
