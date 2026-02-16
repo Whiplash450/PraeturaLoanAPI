@@ -1,0 +1,6 @@
+@PraeturaLoanAPI_HostAddress = http://localhost:5030
+
+GET {{PraeturaLoanAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
